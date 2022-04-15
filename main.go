@@ -21,12 +21,12 @@ func main() {
 	tp, err := telemetry.NewTracerProvider("http://192.168.1.49:14268/api/traces")
 
 	if err != nil {
-		log.Println("msg=\"failed to create tracer provider\", err=\"%s\"", err)
+		log.Printf("msg=\"failed to create tracer provider\", err=\"%s\"", err)
 	}
 
 	defer func() {
 		if err := tp.Shutdown(context.Background()); err != nil {
-			log.Println("msg=\"failed to shutdown tracer\", err=\"%s\"", err)
+			log.Printf("msg=\"failed to shutdown tracer\", err=\"%s\"", err)
 		}
 	}()
 

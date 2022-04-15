@@ -24,7 +24,7 @@ func NewRedis() *Redis {
 	registerMetrics()
 	r := &Redis{
 		client: redis.NewClient(&redis.Options{
-			Addr:     "192.168.1.49:6379",
+			Addr:     "localhost:6379",
 			Password: "",
 			DB:       0,
 		}),
@@ -105,6 +105,8 @@ func (r *Redis) confirmCreds(username string, password string) bool {
 
 func (r *Redis) Login(ctx context.Context, username string, password string, sessionID string) (string, error) {
 	// this will log the user in, and if successful return a session id and nil, otherwise "" and an error
+	ctx, span := tr.Start(ctx, "Login User")
+	defer span.End()
 	userExists := r.getUser(ctx, username)
 	if !userExists {
 		// we don't have the user
