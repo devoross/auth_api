@@ -1,0 +1,16 @@
+#docker run --name=redis-devel --publish=6379:6379 --hostname=redis --restart=on-failure --detach redis:latest
+# grafana default username and password is admin/admin
+# Volumes are only created, if were creating a container that requires it... in this case Grafana
+services:
+  auth_api:
+    image: devoross/auth_api:test
+    container_name: auth_api
+    restart: unless-stopped
+    ports: 
+      - "8840:8840"
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    ports: 
+      - "6379:6379"
