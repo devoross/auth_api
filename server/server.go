@@ -27,7 +27,7 @@ func New(p string) *Server {
 	s.Router.Use(users.PrometheusMiddleware)
 
 	s.Router.HandleFunc("/health", apiStatus)
-	s.Router.HandleFunc("/api/auth", u.LoginHandler)
+	s.Router.HandleFunc("/api/auth/login", u.LoginHandler)
 	s.Router.HandleFunc("/api/auth/signup", u.SignupHandler)
 
 	s.Router.Handle("/metrics", promhttp.Handler())
