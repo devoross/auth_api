@@ -17,7 +17,7 @@ type Server struct {
 }
 
 func New(p string) *Server {
-	log.Println("msg=\"setting up web server...\", app=\"auth_api\"")
+	log.Println("msg=\"setting up web server...\", app=\"auth_api\", level=\"info\"")
 	s := &Server{
 		Router: mux.NewRouter(),
 		Port:   p,
@@ -32,7 +32,7 @@ func New(p string) *Server {
 
 	s.Router.Handle("/metrics", promhttp.Handler())
 
-	log.Println("msg=\"server setup complete...\", app=\"auth_api\"")
+	log.Println("msg=\"server setup complete...\", app=\"auth_api\", level=\"info\"")
 	return s
 }
 
