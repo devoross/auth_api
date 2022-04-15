@@ -44,7 +44,7 @@ func (r *Redis) LoginHandler(w http.ResponseWriter, req *http.Request) {
 		span.RecordError(errors.New("http method not allowed"))
 		span.SetStatus(codes.Error, "incorrect http method provided")
 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
-		log.Printf("msg=\"incorrect method was used on http request\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"incorrect method was used on http request\", app=\"auth_api\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		childSpan.End()
 		return
 	}
@@ -58,7 +58,7 @@ func (r *Redis) LoginHandler(w http.ResponseWriter, req *http.Request) {
 	err := json.NewDecoder(req.Body).Decode(&lp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		log.Printf("msg=\"bad request provided\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"bad request provided\", app=\"auth_api\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"warning\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		span.RecordError(errors.New("bad request provided"))
 		span.SetStatus(codes.Error, "bad payload provided on the request")
 		childSpan.End()
@@ -71,7 +71,7 @@ func (r *Redis) LoginHandler(w http.ResponseWriter, req *http.Request) {
 	err = validate.Struct(lp)
 	if err != nil {
 		http.Error(w, "bad payload provided", http.StatusBadRequest)
-		log.Printf("msg=\"bad request provided\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"bad request provided\", app=\"auth_api\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"warning\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		span.RecordError(errors.New("bad request provided"))
 		span.SetStatus(codes.Error, "bad payload provided on the request")
 		childSpan.End()
@@ -84,7 +84,7 @@ func (r *Redis) LoginHandler(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		_, childSpan = tr.Start(ctx, "Response")
 		http.Error(w, err.Error(), http.StatusUnauthorized)
-		log.Printf("msg=\"bad credentials provided\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"bad credentials provided\", app=\"auth_api\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		span.RecordError(err)
 		span.SetStatus(codes.Error, "Incorrect credentials provided")
 		childSpan.End()
@@ -100,7 +100,7 @@ func (r *Redis) LoginHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(a)
-	log.Printf("msg=\"request completed successfully\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+	log.Printf("msg=\"request completed successfully\", app=\"auth_api\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 }
 
 func (r *Redis) SignupHandler(w http.ResponseWriter, req *http.Request) {
@@ -116,7 +116,7 @@ func (r *Redis) SignupHandler(w http.ResponseWriter, req *http.Request) {
 		span.RecordError(errors.New("http method not allowed"))
 		span.SetStatus(codes.Error, "incorrect http method provided")
 		http.Error(w, "http method not allowed", http.StatusMethodNotAllowed)
-		log.Printf("msg=\"incorrect method was used on http request\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"incorrect method was used on http request\", app=\"auth_api\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		childSpan.End()
 		return
 	}
@@ -128,7 +128,7 @@ func (r *Redis) SignupHandler(w http.ResponseWriter, req *http.Request) {
 	err := json.NewDecoder(req.Body).Decode(&sp)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		log.Printf("msg=\"bad request provided\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"bad request provided\", method=\"%s\", app=\"auth_api\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"warning\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		span.RecordError(errors.New("bad request provided"))
 		span.SetStatus(codes.Error, "bad payload provided on the request")
 		childSpan.End()
@@ -141,7 +141,7 @@ func (r *Redis) SignupHandler(w http.ResponseWriter, req *http.Request) {
 	err = validate.Struct(sp)
 	if err != nil {
 		http.Error(w, "bad payload provided", http.StatusBadRequest)
-		log.Printf("msg=\"bad request provided\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"bad request provided\", method=\"%s\", app=\"auth_api\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"warning\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		span.RecordError(errors.New("bad request provided"))
 		span.SetStatus(codes.Error, "bad payload provided on the request")
 		childSpan.End()
@@ -154,7 +154,7 @@ func (r *Redis) SignupHandler(w http.ResponseWriter, req *http.Request) {
 	if exists {
 		_, childSpan = tr.Start(ctx, "Response")
 		http.Error(w, "username already exists", http.StatusBadRequest)
-		log.Printf("msg=\"username already exists\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"username already exists\", method=\"%s\", app=\"auth_api\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		span.RecordError(err)
 		span.SetStatus(codes.Error, "Username already exists")
 		childSpan.End()
@@ -165,7 +165,7 @@ func (r *Redis) SignupHandler(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		_, childSpan = tr.Start(ctx, "Response")
 		http.Error(w, "internal server error", http.StatusInternalServerError)
-		log.Printf("msg=\"internal server error\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"internal server error\", method=\"%s\", app=\"auth_api\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"error\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		span.RecordError(err)
 		span.SetStatus(codes.Error, "Internal Server Error")
 		childSpan.End()
@@ -173,6 +173,6 @@ func (r *Redis) SignupHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	_, childSpan = tr.Start(ctx, "Response")
-	log.Printf("msg=\"request completed successfully\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+	log.Printf("msg=\"request completed successfully\", method=\"%s\", app=\"auth_api\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 	defer childSpan.End()
 }

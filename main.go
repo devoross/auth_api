@@ -14,25 +14,27 @@ type Test struct {
 	Test string `json:"test"`
 }
 
+var version = "1.0.0"
+
 func main() {
-	log.Println("setting up application...")
+	log.Printf("msg=\"setting up application...\", version=\"%s\", app=\"auth_api\", level=\"info\"", version)
 	s := server.New("8840")
 
 	tp, err := telemetry.NewTracerProvider("http://192.168.1.50:14268/api/traces")
 
 	if err != nil {
-		log.Printf("msg=\"failed to create tracer provider\", err=\"%s\"", err)
+		log.Printf("msg=\"failed to create tracer provider\", err=\"%s\", app=\"auth_api\", level=\"error\"", err)
 	}
 
 	defer func() {
 		if err := tp.Shutdown(context.Background()); err != nil {
-			log.Printf("msg=\"failed to shutdown tracer\", err=\"%s\"", err)
+			log.Printf("msg=\"failed to shutdown tracer\", err=\"%s\", app=\"auth_api\", level=\"error\"", err)
 		}
 	}()
 
 	otel.SetTracerProvider(tp)
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
 
-	log.Println("application started...")
+	log.Printf("msg=\"application started\", version=\"%s\", app=\"auth_api\", level=\"info\"", version)
 	s.Run()
 }

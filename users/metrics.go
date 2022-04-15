@@ -24,13 +24,13 @@ var (
 func registerMetrics() error {
 	err := prometheus.Register(totalRequests)
 	if err != nil {
-		log.Printf("failed to register total requests metric err=\"%s\"", err)
+		log.Printf("msg=\"failed to register total requests metric\", app=\"auth_api\", err=\"%s\", level=\"error\"", err)
 		return err
 	}
 
 	err = prometheus.Register(responseTimes)
 	if err != nil {
-		log.Printf("failed to register response times metric err=\"%s\"", err)
+		log.Printf("msg=\"failed to register response times metric\", app=\"auth_api\", err=\"%s\", level=\"error\"", err)
 		return err
 	}
 	return nil

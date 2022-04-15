@@ -43,23 +43,23 @@ type credsUnmarshal struct {
 
 func (r *Redis) getUser(ctx context.Context, username string) bool {
 	_, span := tr.Start(ctx, "Check user exists")
-	log.Printf("msg=\"checking user exists...\", trace_id=\"%s\", span_id=\"%s\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+	log.Printf("msg=\"checking user exists...\", app=\"auth_api\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 	defer span.End()
 	// Returns whether the user exists in the database or not
 	_, err := r.client.Get(context.Background(), username).Result()
 	// true if it does exist, false if theres an error implying it doesn't exist
 	if err != nil {
-		log.Printf("msg=\"user doesn't exist\", err=\"%s\", trace_id=\"%s\", span_id=\"%s\"", err, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"user doesn't exist\", app=\"auth_api\", err=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", err, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		return false
 	}
 
-	log.Printf("msg=\"user already exists\", trace_id=\"%s\", span_id=\"%s\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+	log.Printf("msg=\"user already exists\", app=\"auth_api\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 	return true
 }
 
 func (r *Redis) CreateUser(ctx context.Context, username string, password string, email string) error {
 	_, span := tr.Start(ctx, "Create a user")
-	log.Printf("msg=\"creating a user...\", trace_id=\"%s\", span_id=\"%s\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+	log.Printf("msg=\"creating a user...\", app=\"auth_api\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 	defer span.End()
 	h := sha1.New()
 	h.Write([]byte(password))
@@ -74,7 +74,7 @@ func (r *Redis) CreateUser(ctx context.Context, username string, password string
 	if err != nil {
 		span.RecordError(errors.New("unable to marshal struct into json"))
 		span.SetStatus(codes.Error, "Error marshalling struct into json")
-		log.Printf("msg=\"error whilst trying to marshal a struct into json\", err=\"%s\", trace_id=\"%s\", span_id=\"%s\"", err, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"error whilst trying to marshal a struct into json\", app=\"auth_api\", err=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"error\"", err, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		return err
 	}
 
@@ -83,11 +83,11 @@ func (r *Redis) CreateUser(ctx context.Context, username string, password string
 	if err != nil {
 		span.RecordError(errors.New("error setting value in database"))
 		span.SetStatus(codes.Error, "Error setting value in database")
-		log.Printf("msg=\"error setting value in the database\", err=\"%s\", trace_id=\"%s\", span_id=\"%s\"", err, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"error setting value in the database\", app=\"auth_api\", err=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"error\"", err, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		return err
 	}
 
-	log.Printf("msg=\"user was created successfully\", trace_id=\"%s\", span_id=\"%s\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+	log.Printf("msg=\"user was created successfully\", app=\"auth_api\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 	return nil
 }
 
