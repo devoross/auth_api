@@ -21,8 +21,8 @@ func NewTracerProvider(url string) (*trace.TracerProvider, error) {
 		trace.WithResource(resource.NewWithAttributes(
 			semconv.SchemaURL,
 			semconv.ServiceNameKey.String("auth_api"),
-			semconv.ContainerImageTagKey.String("Hello"),
 			attribute.String("environment", "PROD"),
+			attribute.String("container_name", "auth_api"),
 			attribute.Int64("ID", 1),
 		)),
 	)
