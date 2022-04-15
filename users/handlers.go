@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-playground/validator"
 	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
 )
@@ -61,6 +62,7 @@ func (r *Redis) LoginHandler(w http.ResponseWriter, req *http.Request) {
 		log.Printf("msg=\"bad request provided\", method=\"%s\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		span.RecordError(errors.New("bad request provided"))
 		span.SetStatus(codes.Error, "bad payload provided on the request")
+		span.SetAttributes(attribute.KeyValue{Key: "hey", Value: attribute.Value{}})
 		childSpan.End()
 		return
 	}
