@@ -13,8 +13,6 @@ import (
 	"github.com/go-redis/redis/extra/redisotel/v8"
 	"github.com/go-redis/redis/v8"
 	"go.opentelemetry.io/otel/codes"
-
-	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 )
 
 type Redis struct {
@@ -33,7 +31,7 @@ func NewRedis() *Redis {
 		sessions: sessions.NewSessions(),
 	}
 
-	r.client.AddHook(redisotel.NewTracingHook(redisotel.WithAttributes(semconv.NetPeerNameKey.String("192.168.1.49"), semconv.NetPeerNameKey.String("6379"))))
+	r.client.AddHook(&redisotel.TracingHook{})
 	return r
 }
 
