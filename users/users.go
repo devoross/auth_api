@@ -49,7 +49,7 @@ func (r *Redis) getUser(ctx context.Context, username string) bool {
 	_, err := r.client.Get(context.Background(), username).Result()
 	// true if it does exist, false if theres an error implying it doesn't exist
 	if err != nil {
-		log.Printf("msg=\"user doesn't exist\", app=\"auth_api\", err=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", err, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
+		log.Printf("msg=\"user doesn't exist\", app=\"auth_api\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 		return false
 	}
 
