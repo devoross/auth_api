@@ -18,7 +18,7 @@ func main() {
 	log.Println("setting up application...")
 	s := server.New("8840")
 
-	tp, err := telemetry.NewTracerProvider("http://0.0.0.0:14268/api/traces")
+	tp, err := telemetry.NewTracerProvider("http://192.168.1.50:14268/api/traces")
 
 	if err != nil {
 		log.Printf("msg=\"failed to create tracer provider\", err=\"%s\"", err)
