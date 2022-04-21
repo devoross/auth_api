@@ -1,6 +1,7 @@
 package main
 
 import (
+	"auth_api/config"
 	"auth_api/server"
 	"auth_api/telemetry"
 	"context"
@@ -14,10 +15,8 @@ type Test struct {
 	Test string `json:"test"`
 }
 
-var version = "1.0.0"
-
 func main() {
-	log.Printf("msg=\"setting up application...\", version=\"%s\", app=\"auth_api\", level=\"info\"", version)
+	log.Printf("msg=\"setting up application...\", version=\"%s\", app=\"auth_api\", level=\"info\"", config.Version)
 	s := server.New("8840")
 
 	tp, err := telemetry.NewTracerProvider("http://192.168.1.50:14268/api/traces")
@@ -35,6 +34,6 @@ func main() {
 	otel.SetTracerProvider(tp)
 	otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(propagation.TraceContext{}, propagation.Baggage{}))
 
-	log.Printf("msg=\"application started\", version=\"%s\", app=\"auth_api\", level=\"info\"", version)
+	log.Printf("msg=\"application started\", version=\"%s\", app=\"auth_api\", level=\"info\"", config.Version)
 	s.Run()
 }
