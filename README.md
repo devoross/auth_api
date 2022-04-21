@@ -2,7 +2,36 @@
 
 This is the authentication layer which makes up a small part of a larger application.
 
-## Run the application
+## Prerequisites
+
+Required applications:
+
+* Docker
+* Docker compose, if you don't already have docker compose see [here](https://docs.docker.com/compose/install/)
+
+The above is suited to run Redis and Jaeger, which are both useful for the execution of the application. Redis is our storage layer (temp, as this will be a caching layer to a postgres DB), which is required and Jaeger is used to log our traces to so that we can visualise them. See screenshot below.
+
+**NOTE: Make sure you have added yourself to the docker group so you can run docker as non-sudo**
+
+## Starting the application ins Docker
+
+Build the docker image for auth_api application
+
+```bash
+./build.sh
+```
+
+Once the build is complete, you should now have a docker image locally installed and ready to run, therefore you can now run the below command.
+
+**Sometimes the command may be `docker-compose`**
+
+```bash
+docker compose up -d
+```
+
+What the above command does, is start all the containers configured in the docker-compose yml, which should be everything required to get the application up and running locally.
+
+## Run the application locally
 
 Download dependencies
 
