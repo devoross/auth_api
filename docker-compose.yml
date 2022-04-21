@@ -3,14 +3,24 @@
 # Volumes are only created, if were creating a container that requires it... in this case Grafana
 services:
   auth_api:
-    image: devoross/auth_api:test
+    image: devoross/auth_api:latest
     container_name: auth_api
     restart: unless-stopped
+    network_mode: "host"
     ports: 
-      - "8840:8840"
+      - "8080:8080"
   redis:
     image: redis:latest
     container_name: redis
     restart: unless-stopped
+    network_mode: "host"
     ports: 
       - "6379:6379"
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    restart: unless-stopped
+    network_mode: "host"
+    ports:
+      - "16686:16686"
+      - "14268:14268"

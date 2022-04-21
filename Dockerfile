@@ -7,6 +7,7 @@ COPY go.sum ./
 RUN go mod download
 
 ADD server ./server
+ADD config ./config
 ADD sessions ./sessions
 ADD telemetry ./telemetry
 ADD users ./users

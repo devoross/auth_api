@@ -24,7 +24,7 @@ func NewRedis() *Redis {
 	registerMetrics()
 	r := &Redis{
 		client: redis.NewClient(&redis.Options{
-			Addr:     "192.168.1.45:6379",
+			Addr:     "127.0.0.1:6379",
 			Password: "",
 			DB:       0,
 		}),

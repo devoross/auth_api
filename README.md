@@ -13,7 +13,7 @@ The above is suited to run Redis and Jaeger, which are both useful for the execu
 
 **NOTE: Make sure you have added yourself to the docker group so you can run docker as non-sudo**
 
-## Starting the application ins Docker
+## Starting the application in Docker
 
 Build the docker image for auth_api application
 
@@ -21,15 +21,7 @@ Build the docker image for auth_api application
 ./build.sh
 ```
 
-Once the build is complete, you should now have a docker image locally installed and ready to run, therefore you can now run the below command.
-
-**Sometimes the command may be `docker-compose`**
-
-```bash
-docker compose up -d
-```
-
-What the above command does, is start all the containers configured in the docker-compose yml, which should be everything required to get the application up and running locally.
+Once the build is complete, it'll start the docker containers. It uses `docker compose up -d --force-recreate`. Sometimes the command is `docker-compose` which is worth being aware of and if need be, edit the `build.sh` file and change the command
 
 ## Run the application locally
 
@@ -142,3 +134,7 @@ curl -XPOST -H 'Content-Type: application/json' -H "x-session-id: 7fc2639b-2eef-
 ```
 
 The idea is, that if say the session no longer existed, and couldn't be found, the API would return a 401 allowing the frontend to respond by showing the login page
+
+## Traces
+
+Jaeger UI : `http://localhost:16686/search`

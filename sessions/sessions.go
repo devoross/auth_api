@@ -14,7 +14,7 @@ type Redis struct {
 func NewSessions() *Redis {
 	return &Redis{
 		Client: redis.NewClient(&redis.Options{
-			Addr:     "localhost:6379",
+			Addr:     "127.0.0.1:6379",
 			Password: "",
 			DB:       1,
 		}),

@@ -15,7 +15,7 @@ func main() {
 	log.Printf("msg=\"setting up application...\", version=\"%s\", app=\"auth_api\", level=\"info\"", config.Version)
 	s := server.New("8080")
 
-	tp, err := telemetry.NewTracerProvider("http://192.168.1.50:14268/api/traces")
+	tp, err := telemetry.NewTracerProvider("http://127.0.0.1:14268/api/traces")
 
 	if err != nil {
 		log.Printf("msg=\"failed to create tracer provider\", err=\"%s\", app=\"auth_api\", level=\"error\"", err)
