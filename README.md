@@ -138,3 +138,7 @@ The idea is, that if say the session no longer existed, and couldn't be found, t
 ## Traces
 
 Jaeger UI : `http://localhost:16686/search`
+
+### Example traces
+
+![traces](./images/traces.PNG)
