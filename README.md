@@ -142,3 +142,11 @@ Jaeger UI : `http://localhost:16686/search`
 ### Example traces
 
 ![traces](./images/traces.PNG)
+
+## Metrics
+
+Prometheus Metrics
+
+```bash
+curl http://localhost:8080/metrics
+```
