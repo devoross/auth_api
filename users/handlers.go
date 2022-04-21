@@ -175,4 +175,6 @@ func (r *Redis) SignupHandler(w http.ResponseWriter, req *http.Request) {
 	_, childSpan = tr.Start(ctx, "Response")
 	log.Printf("msg=\"request completed successfully\", method=\"%s\", app=\"auth_api\", remote_addr=\"%s\", request_uri=\"%s\", trace_id=\"%s\", span_id=\"%s\", level=\"debug\"", req.Method, req.RemoteAddr, req.RequestURI, span.SpanContext().TraceID().String(), span.SpanContext().SpanID().String())
 	defer childSpan.End()
+
+	// TODO : create user session, so the user can login at the frontend - return the session ids
 }
