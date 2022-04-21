@@ -127,7 +127,7 @@ curl -XPOST -H 'Content-Type: application/json' -H "x-session-id: 7fc2639b-2eef-
 
 ```json
 {
-    "sid": "f08ff456-3926-4dbf-935e-2b9dee3ffd32",
+    "sid": "7fc2639b-2eef-4a15-96ad-1a3cefbc6bf7",
     "email":"test@test.com",
     "username":"test_username"
 }
