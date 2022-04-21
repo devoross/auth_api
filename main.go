@@ -11,10 +11,6 @@ import (
 	"go.opentelemetry.io/otel/propagation"
 )
 
-type Test struct {
-	Test string `json:"test"`
-}
-
 func main() {
 	log.Printf("msg=\"setting up application...\", version=\"%s\", app=\"auth_api\", level=\"info\"", config.Version)
 	s := server.New("8840")
